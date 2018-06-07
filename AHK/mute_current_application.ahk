@@ -11,7 +11,16 @@ F1::  ; F1 hotkey - toggle mute state of active window
   ObjRelease(Volume)
 return
 
-F2::  ; F2 hotkey - toggle mute state of chrome.exe
+F2::  ; F2 hotkey - toggle Youtube pause in Chrome
+  SetTitleMatchMode, RegEx
+  ControlGet, controlID, Hwnd,,, YouTube - Google Chrome
+  if !(controlID)
+    MsgBox, ControlGet failed
+  ControlFocus,,ahk_id %controlID%
+  ControlSend, , {space}, YouTube - Google Chrome
+return
+
+F3::  ; F3 hotkey - toggle mute state of chrome.exe
   if !(Volume := GetVolumeObject("chrome.exe"))
     MsgBox, There was a problem retrieving the application volume interface
   VA_ISimpleAudioVolume_GetMute(Volume, Mute)  ;Get mute state
@@ -19,6 +28,9 @@ F2::  ; F2 hotkey - toggle mute state of chrome.exe
   VA_ISimpleAudioVolume_SetMute(Volume, !Mute) ;Toggle mute state
   ObjRelease(Volume)
 return
+
+
+
 
 ;Required for app specific mute
 GetVolumeObject(Param = 0)
