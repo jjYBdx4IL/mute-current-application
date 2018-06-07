@@ -11,6 +11,15 @@ F1::  ; F1 hotkey - toggle mute state of active window
   ObjRelease(Volume)
 return
 
+F2::  ; F2 hotkey - toggle mute state of chrome.exe
+  if !(Volume := GetVolumeObject("chrome.exe"))
+    MsgBox, There was a problem retrieving the application volume interface
+  VA_ISimpleAudioVolume_GetMute(Volume, Mute)  ;Get mute state
+  ; Msgbox % "Application " ActivePID " is currently " (mute ? "muted" : "not muted")
+  VA_ISimpleAudioVolume_SetMute(Volume, !Mute) ;Toggle mute state
+  ObjRelease(Volume)
+return
+
 ;Required for app specific mute
 GetVolumeObject(Param = 0)
 {
